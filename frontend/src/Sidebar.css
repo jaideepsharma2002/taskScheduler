@@ -1,0 +1,22 @@
+.sidebar {
+  width: 200px;
+  background-color: #f1f5f9;
+  padding: 20px;
+  border-right: 1px solid #e5e7eb;
+  height: calc(100vh - 60px);
+}
+
+.add-task-btn {
+  padding: 12px 16px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 500;
+}
+
+.add-task-btn:hover {
+  background-color: #2563eb;
+}
