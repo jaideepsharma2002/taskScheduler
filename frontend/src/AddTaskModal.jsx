@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AddTaskModal.css';
 
-const AddTaskModal = ({ onClose, onSubmit }) => {
+const AddTaskModal = ({ editopt,addopt, selectedTask, onClose, onSubmit }) => {
   const [title, setTitle] = useState('');
   const [type, setType] = useState('note');
+
+  const [buttontitle,setButtonTitle] = useState("");
+
+  useEffect( ()=>{
+
+    if (editopt && selectedTask) {
+      setTitle(selectedTask.title || '');
+      setType(selectedTask.type || 'note');
+      setButtonTitle("Edit Task"); }
+    else {
+      setTitle('');
+      setType('note');
+      setButtonTitle("Add Task");
+    }
+
+  },[editopt,addopt,selectedTask])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,10 +56,42 @@ const AddTaskModal = ({ onClose, onSubmit }) => {
     }
   };
 
+  const handleEditSubmit = async() => {
+
+    const payload = {title, type};
+
+    console.log("Edited task payload", payload);
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:5000/api/task/${selectedTask._id}`, {
+        method:
+        'PUT',
+        'headers': { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+      },
+      body:JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to Update the tasks");
+      }
+      const updatedTask = await response.json()
+      onSubmit(updatedTask);
+      onClose();
+    }
+    catch(e) {
+      console.log("Error in updating the task!");
+    }
+    
+  }
+
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h2 className="modal-title">Add New Task</h2>
+        {editopt && <h2 className="modal-title">Update Task</h2>}
+        {addopt && <h2 className="modal-title">Add new Task</h2>}
         <input
           className="modal-input"
           type="text"
@@ -61,7 +109,7 @@ const AddTaskModal = ({ onClose, onSubmit }) => {
         </select>
         <div className="modal-actions">
           <button className="modal-btn cancel" onClick={onClose}>Cancel</button>
-          <button className="modal-btn submit" onClick={handleSubmit}>Add Task</button>
+          <button className="modal-btn submit" onClick={addopt ? handleSubmit:handleEditSubmit}>{buttontitle}</button>
         </div>
       </div>
     </div>
