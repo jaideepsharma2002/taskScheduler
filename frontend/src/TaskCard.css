@@ -1,34 +1,48 @@
 .task-card-wrapper {
-  border-left: 6px solid;
-  background-color: #ffffff;
-  border-radius: 8px;
-  margin: 12px 0;
-  padding: 16px;
+  background: #ffffff;
+  border-left: 4px solid #52e673;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  max-width: 300px;
-  position: relative;
+  max-width: 380px;
 }
 
 .task-card-wrapper:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transform: scale(1.01);
-  background: linear-gradient(90deg, #eff6ff 0%, #ffffff 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
 }
 
 .task-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+}
+
+.task-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.task-actions {
+  display: flex;
+  gap: 10px;
 }
 
 .icon-btn {
+  color: #9ca3af;
   cursor: pointer;
-  width: 18px;
-  height: 18px;
-  color: #6b7280;
   transition: color 0.2s ease;
+  height: 18px;
+  width: 18px;
 }
 
 .icon-btn:hover {
@@ -39,24 +53,20 @@
   color: #ef4444;
 }
 
-.task-card-content {
-  display: flex;
-  flex-direction: column;
+.task-desc {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.4;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .task-tag {
-  display: inline-block;
-  background-color: #e0f2fe;
-  color: #0284c7;
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 12px;
-  margin-bottom: 8px;
-  width: fit-content;
-}
-
-.task-title {
-  font-size: 16px;
-  color: #1f2937;
-  margin: 0;
+  font-size: 11px;
+  font-weight: 500;
+  color: #002668;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }

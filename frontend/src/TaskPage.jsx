@@ -4,8 +4,10 @@ import Sidebar from './Sidebar';
 import TaskCard from './TaskCard';
 import './TaskPage.css';
 import AddTaskModal from './AddTaskModal';
+import { useNavigate } from 'react-router-dom';
 
 const TaskPage = () => {
+  const navigate = useNavigate();
 
     const [tasks, setTasks] = useState([]);
 
@@ -30,15 +32,18 @@ const TaskPage = () => {
 
         
       }
-      else 
-      setTasks([...tasks, task]);
+      else {
+      fetchTasks();
+      // setTasks([...tasks, task]);
+      }
     };
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
 
-    const onEdit = async(task) => {
+    const onEdit = (task) => {
+      console.log("onedit",task);
       setEditTask(true);
       setAddTask(false);
       setIsModalOpen(true);
@@ -78,6 +83,11 @@ const TaskPage = () => {
       }
     }
 
+    const lotOut = () => {
+      localStorage.removeItem("token");
+      navigate('/login'); 
+    }
+
     const fetchTasks = async() => {
 
         try {
@@ -114,8 +124,22 @@ const TaskPage = () => {
         }
     };
 
+    useEffect( ()=>{
 
-   
+      const handleStorageEvent = (event)=>{
+        if (event.key == "task-update") {
+          fetchTasks();
+        }
+      }
+
+      window.addEventListener('storage',handleStorageEvent);
+
+      return ()=>{
+        window.removeEventListener('storage',handleStorageEvent);
+      }
+
+    },[])
+    
 
     useEffect( ()=>{
         
@@ -125,7 +149,7 @@ const TaskPage = () => {
 
   return (
     <div className="task-page">
-      <Header />
+      <Header logout = {lotOut}/>
       <div className="main-layout">
         <Sidebar onAddTaskClick={() => {setIsModalOpen(true)
                                         setAddTask(true)
@@ -135,11 +159,11 @@ const TaskPage = () => {
           {loading && <p>Loading tasks</p>}
           {error && <p className='error'>{error}</p>}
           {!loading && !error && tasks.map(task => (
-            <TaskCard task={task} id={task._id} key={task._id} title={task.title} tag={task.type} edit={onEdit} delete={onDelete} />
+            <TaskCard task={task} id={task._id} key={task._id} title={task.title} tag={task.type} datetime={task.type==='reminder' ? task.datetime: null} desc={task.description} edit={onEdit} delete={onDelete} />
           ))}
         </div>
       </div>
-      {isModalOpen && (
+      {isModalOpen && selectedtask && (
         <AddTaskModal
           editopt = {editTask}
           addopt = {addTask}

@@ -14,6 +14,16 @@ const taskSchema = mongoose.Schema({
         type: String,
         enum: ['note','reminder'],
         required: [true, "added the type of task"]
+    },
+    description: {
+        type: String,
+        required: [true, 'add the description']
+    },
+    datetime: {
+        type:Date,
+        required: function () {
+            return this.type === 'reminder';
+        },
     }
 }, {
     timestamps: true,

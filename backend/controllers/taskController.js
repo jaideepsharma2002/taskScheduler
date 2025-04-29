@@ -2,16 +2,24 @@ const asyncHandler = require("express-async-handler");
 const Task = require("../models/taskModel");
 
 const createTask = asyncHandler( async (req,res) => {
-    const { title, type } = req.body;
-    if (!title || !type) {
+    const { title, type, description, datetime } = req.body;
+    console.log(req.body);
+    if (!title || !type || !description) {
         res.status(400);
         throw new Error("All the feilds are mandatory!");
+    }
+    if (type == 'remibder') {
+        if (!datetime) {
+            throw  new Error('Date and time is mandatory! if the task type is reminder');
+        }
     }
     console.log("Userid", req.user.id)
     const task = await Task.create({
         userid: req.user.id,
         title,
-        type
+        type,
+        description,
+        ...(type==='reminder' && {datetime: datetime}),
     });
 
     console.log("task", task);

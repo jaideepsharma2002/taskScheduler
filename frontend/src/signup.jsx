@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import './signup.css';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -81,6 +84,9 @@ const Signup = () => {
         {passwordError && <p className="error">{passwordError}</p>}
 
         <button type="submit">Sign Up</button>
+
+
+        <h4>Already have an account? <span onClick={() => navigate('/login')}>Login</span></h4>
       </form>
     </div>
   );
