@@ -4,8 +4,25 @@
     color: white;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0 24px;
     font-size: 20px;
     font-weight: 600;
   }
+
+  .logout-button {
+    background-color: #3b82f6; /* Blue */
+    color: #ffffff; /* White text */
+    font-weight: 600; /* Bolder text */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Optional shadow */
+  }
   
+  .logout-button:hover {
+    background-color: #2563eb; /* Darker blue on hover */
+  }
